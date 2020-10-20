@@ -7,7 +7,7 @@ class Program {
 
     public static async Main() {
         dotenv.config();
-        const connection: Connection = await createConnection();
+        const connection: Connection = await createConnection(process.env.NODE_ENV || "default");
         const application: Application = new Application();
         application.initialize();
     }

@@ -3,7 +3,7 @@ import usersRouter from "./router/routes/users";
 
 export class Application {
 
-    private app: express.Application;
+    private readonly app: express.Application;
 
     public constructor() {
         this.app = express();
@@ -12,8 +12,16 @@ export class Application {
     }
 
     public initialize(): void {
-        this.app.use(usersRouter);
+        this.registerRoutes();
         this.app.listen(process.env.PORT, () => console.log(`Server: https://${process.env.HOST}:${process.env.PORT}`));
+    }
+
+    public get(): express.Application {
+        return this.app;
+    }
+
+    private registerRoutes(): void {
+        this.app.use("/users", usersRouter);
     }
 
 }
