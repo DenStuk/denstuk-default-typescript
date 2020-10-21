@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { RuntimeError } from "../errors/RuntimeError";
+import { RequestError } from "@root/domain/errors/RequestError";
 import { Roles } from "../types";
 import { getRepository } from "typeorm";
 import { Admin } from "../entities/roles/Admin";
@@ -9,16 +9,8 @@ import { User } from "../entities/roles/User";
 import { Operator } from "../entities/roles/Operator";
 import { Saller } from "../entities/roles/Saller";
 
-declare global {
-    namespace Express {
-        interface Request {
-            user?: any
-        }
-    }
-}
-
 export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.headers.authorization) throw new RuntimeError(401, "Not authorized");
+    if (!req.headers.authorization) throw new RequestError(401, "Not authorized");
 
     const token = req.headers.authorization.split(" ")[1] || null;
 
@@ -27,10 +19,10 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
     try {
         payload = jwt.verify(token, process.env.TOKEN_SECRET);
     } catch (err) {
-        throw new RuntimeError(401, err.message);
+        throw new RequestError(401, err.message);
     }
 
-    if (!payload.role) throw new RuntimeError(400, "Invalid token");
+    if (!payload.role) throw new RequestError(400, "Invalid token");
 
     switch (payload.role) {
         case Roles.ADMIN:
@@ -45,7 +37,7 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
             req.user = await getRepository(User).findOne({ id: payload.id }); break;
     }
 
-    if (!req.user) throw new RuntimeError(404, "User not found");
+    if (!req.user) throw new RequestError(404, "User not found");
 
     next();
 };

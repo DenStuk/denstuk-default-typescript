@@ -1,4 +1,7 @@
 import express from "express";
+import helmet from "helmet";
+import compression from "compression";
+import cors from "cors";
 import usersRouter from "./router/routes/users";
 
 export class Application {
@@ -9,6 +12,9 @@ export class Application {
         this.app = express();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(cors());
+        this.app.use(helmet());
+        this.app.use(compression());
     }
 
     public initialize(): void {

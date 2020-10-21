@@ -14,9 +14,14 @@
       "esModuleInterop": true,
       "strict": true,
       "strictPropertyInitialization": false,
+      "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
          "@root/*": ["src/*"]
-      }
+      },
+      "typeRoots": [
+         "@types",
+         "./node_modules/@types",
+       ] 
    }
 }
