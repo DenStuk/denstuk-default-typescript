@@ -1,5 +1,5 @@
 export interface IRequestOk {
     statusCode: number;
     status: string;
-    data: object
+    data?: object
 }
