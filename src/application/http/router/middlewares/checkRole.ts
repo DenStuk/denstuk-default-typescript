@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { RequestError } from "@root/domain/errors/RequestError";
+import { RequestError } from "@root/domain/core/errors/RequestError";
 import { Roles } from "../types";
 
 export const checkRole = (receivedRoles: Roles[]) => {

@@ -1,9 +1,13 @@
+import { UserCrudService } from "@root/domain/user/services/UserCrudService";
 import express, { Request, Response } from "express";
 
 const usersRouter: express.Router = express.Router();
 
-usersRouter.get("/users", async (req: Request, res: Response) => {
-    res.status(200).send("Hello");
+usersRouter.get(
+    "/", 
+    async (req: Request, res: Response) => {
+    const service = new UserCrudService();
+    res.status(200).send(await service.find());
 });
 
 export default usersRouter;

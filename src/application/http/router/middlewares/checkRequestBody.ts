@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validate, ValidationError } from "class-validator";
 import { plainToClass } from "class-transformer";
-import { RequestError } from "@root/domain/errors/RequestError";
+import { RequestError } from "@root/domain/core/errors/RequestError";
 
 export const checkRequestBody = (dtoClass: any) => {
     return async (req: Request, res: Response, next: NextFunction) => {

@@ -3,31 +3,36 @@ import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
 import usersRouter from "./router/routes/users";
+import { inject, injectable } from "inversify";
+import { HttpRouter } from "./router/HttpRouter";
+import { TYPES } from "@root/domain/core/types";
 
+export interface IApplication {
+    initialize(): void;
+}
+
+@injectable()
 export class Application {
 
-    private readonly app: express.Application;
+    private readonly _app: express.Application;
+    @inject(TYPES.IHttpRouter) private readonly _httpRouter: HttpRouter;
 
     public constructor() {
-        this.app = express();
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: true }));
-        this.app.use(cors());
-        this.app.use(helmet());
-        this.app.use(compression());
+        this._app = express();
+        this._app.use(express.json());
+        this._app.use(express.urlencoded({ extended: true }));
+        this._app.use(cors());
+        this._app.use(helmet());
+        this._app.use(compression());
     }
 
     public initialize(): void {
-        this.registerRoutes();
-        this.app.listen(process.env.PORT, () => console.log(`Server: https://${process.env.HOST}:${process.env.PORT}`));
+        const httpRouter = this._httpRouter.get();
+        this._app.use(httpRouter);
     }
 
-    public get(): express.Application {
-        return this.app;
-    }
-
-    private registerRoutes(): void {
-        this.app.use("/users", usersRouter);
+    public get app(): express.Application {
+        return this._app;
     }
 
 }

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { RequestError } from "@root/domain/errors/RequestError";
+import { RequestError } from "@root/domain/core/errors/RequestError";
 import { Roles } from "../types";
 import { getRepository } from "typeorm";
 import { Admin } from "../entities/roles/Admin";

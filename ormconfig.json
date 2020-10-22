@@ -9,7 +9,7 @@
       "database": "development_db",
       "synchronize": true,
       "logging": false,
-      "entities": ["src/domain/entities/**/*.ts"],
+      "entities": ["src/domain/**/*.ts"],
       "migrations": ["src/data/migration/**/*.ts"],
       "subscribers": ["src/data/subscriber/**/*.ts"],
       "cli": {
@@ -28,7 +28,8 @@
       "database": "development_db",
       "synchronize": true,
       "logging": false,
-      "entities": ["src/domain/entities/**/*.ts"],
+      "dropSchema": true,
+      "entities": ["src/domain/**/entities/*.ts"],
       "migrations": ["src/data/migration/**/*.ts"],
       "subscribers": ["src/data/subscriber/**/*.ts"],
       "cli": {
